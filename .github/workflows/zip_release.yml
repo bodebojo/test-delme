@@ -19,13 +19,6 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Output release url file
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Save release url file for publish
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_url
-          path: release_url.txt
     
       - name: Checkout code
         uses: actions/checkout@v2
@@ -37,7 +30,7 @@ jobs:
       - name: Upload release
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./release.zip
           asset_name: release.zip
           asset_content_type: application/zip
